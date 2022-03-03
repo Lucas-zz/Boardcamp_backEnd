@@ -6,6 +6,6 @@ import categorySchema from '../schemas/categorySchema';
 const categoryRouter = Router();
 
 categoryRouter.get('/categories', getCategories);
-categoryRouter.post('/categories', createCategory);
+categoryRouter.post('/categories', validateSchemaMiddleware(categorySchema), createCategory);
 
 export default categoryRouter;
