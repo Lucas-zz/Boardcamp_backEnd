@@ -17,7 +17,7 @@ export async function createCategory(req, res) {
 
     try {
         const result = await db.query(`
-            SELECT id FROM categories WHERE name=$1**
+            SELECT id FROM categories WHERE name=$1
         `, [category.name]);
 
         if (result.rowCount > 0) {
