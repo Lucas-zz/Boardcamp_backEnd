@@ -10,7 +10,7 @@ export async function getGames(req, res) {
                     games.*,
                     categories.name AS "categoryName"
                 FROM games
-                    JOIN categories ON games."categorieId"=categorie.id
+                    JOIN categories ON games."categoryId"=category.id
                 ${offset && `OFFSET ${parseInt(offset)}`}
                 ${limit && `LIMIT ${parseInt(limit)}`}
             `);
