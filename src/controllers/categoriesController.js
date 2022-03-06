@@ -16,14 +16,6 @@ export async function createCategory(req, res) {
     const category = req.body;
 
     try {
-        const result = await db.query(`
-            SELECT id FROM categories WHERE name=$1
-        `, [category.name]);
-
-        if (result.rowCount > 0) {
-            return res.status(409).send(`Categoria ${category.name} já criada`);
-        }
-
         await db.query(`
             INSERT INTO
                 categories (name)
