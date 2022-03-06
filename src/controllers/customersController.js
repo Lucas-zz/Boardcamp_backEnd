@@ -25,6 +25,10 @@ export async function getCustomers(req, res) {
                 ${limit && `LIMIT ${parseInt(limit)}`}
             `, [id]);
 
+            if (!customers) {
+                return res.sendStatus(404);
+            }
+
             return res.send(customers);
         }
 
