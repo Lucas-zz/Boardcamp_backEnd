@@ -1,13 +1,16 @@
 import db from '../db.js';
 
 export async function getCustomers(req, res) {
-    const { cpf } = req.query;
+    const { cpf, offset, limit } = req.query;
     const { id } = req.params;
 
     try {
         if (!cpf && !id) {
             const { rows: customers } = await db.query(`
-                SELECT * FROM customers
+                SELECT *
+                FROM customers
+                ${offset && `OFFSET ${parseInt(offset)}`}
+                ${limit && `LIMIT ${parseInt(limit)}`}
             `);
 
             return res.send(customers);
@@ -15,14 +18,22 @@ export async function getCustomers(req, res) {
 
         if (!cpf && id) {
             const { rows: customers } = await db.query(`
-                SELECT * FROM customers WHERE id=$1
+                SELECT *
+                FROM customers
+                WHERE id=$1
+                ${offset && `OFFSET ${parseInt(offset)}`}
+                ${limit && `LIMIT ${parseInt(limit)}`}
             `, [id]);
 
             return res.send(customers);
         }
 
         const { rows: customers } = await db.query(`
-            SELECT * FROM customers WHERE cpf LIKE ($1)
+            SELECT *
+            FROM customers
+            WHERE cpf LIKE ($1)
+            ${offset && `OFFSET ${parseInt(offset)}`}
+            ${limit && `LIMIT ${parseInt(limit)}`}
         `, [`${cpf}%`]);
 
         res.send(customers);

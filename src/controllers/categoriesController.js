@@ -1,9 +1,14 @@
 import db from '../db.js';
 
 export async function getCategories(req, res) {
+    const { offset, limit } = req.query;
+
     try {
         const result = await db.query(`
-            SELECT * FROM categories
+            SELECT *
+            FROM categories
+            ${offset && `OFFSET ${parseInt(offset)}`}
+            ${limit && `LIMIT ${parseInt(limit)}`}
         `);
 
         res.send(result.rows);

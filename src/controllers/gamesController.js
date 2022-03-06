@@ -1,7 +1,7 @@
 import db from '../db.js';
 
 export async function getGames(req, res) {
-    const { name } = req.query;
+    const { name, offset, limit } = req.query;
 
     try {
         if (!name) {
@@ -11,6 +11,8 @@ export async function getGames(req, res) {
                     categories.name AS "categoryName"
                 FROM games
                     JOIN categories ON games."categorieId"=categorie.id
+                ${offset && `OFFSET ${parseInt(offset)}`}
+                ${limit && `LIMIT ${parseInt(limit)}`}
             `);
 
             return res.send(games);
@@ -23,6 +25,8 @@ export async function getGames(req, res) {
             FROM games
             WHERE LOWER (name) LIKE LOWER ($1)
                 JOIN categories ON games."categoryId"=category.id
+            ${offset && `OFFSET ${parseInt(offset)}`}
+            ${limit && `LIMIT ${parseInt(limit)}`}
         `, [`${name}%`]);
 
         res.send(games);

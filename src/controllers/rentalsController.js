@@ -2,8 +2,10 @@ import db from '../db.js';
 import dayjs from 'dayjs';
 
 export async function getRentals(req, res) {
-    let queryCustomerId = req.query.customerId;
-    let queryGameId = req.query.gameId;
+    const { offset, limit } = req.query;
+
+    const queryCustomerId = req.query.customerId;
+    const queryGameId = req.query.gameId;
 
     try {
         const { rows: rentals } = await db.query(`
@@ -21,6 +23,8 @@ export async function getRentals(req, res) {
             JOIN categories ON games."categoryId" = categories.id
         ${queryCustomerId && `WHERE customers.id = ${parseInt(queryCustomerId)}`}
         ${queryGameId && `WHERE games.id = ${parseInt(queryGameId)}`}
+        ${offset && `OFFSET ${parseInt(offset)}`}
+        ${limit && `LIMIT ${parseInt(limit)}`}
     `);
 
         const rentalResult = rentals.map(rental => {
