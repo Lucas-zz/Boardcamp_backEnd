@@ -20,7 +20,7 @@ export async function validateGame(req, res, next) {
             return res.sendStatus(409);
         }
 
-        if (hasCategory === 0) {
+        if (hasCategory.rowCount === 0) {
             return res.sendStatus(400);
         }
 

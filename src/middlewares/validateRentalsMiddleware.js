@@ -5,35 +5,35 @@ export async function validateRental(req, res, next) {
 
     if (parseInt(daysRented) <= 0) {
         return res.sendStatus(400);
-    }
+    };
 
     try {
-        const { rows: gameExists } = await db.query(`
+        const gameExists = await db.query(`
             SELECT * FROM games WHERE id=$1
         `, [gameId]);
 
-        if (!gameExists) {
+        if (gameExists.rowCount === 0) {
             return res.sendStatus(400);
-        }
+        };
 
-        const { rows: customerExists } = await db.query(`
+        const customerExists = await db.query(`
             SELECT * FROM customers WHERE id=$1
         `, [customerId]);
 
-        if (!customerExists) {
+        if (customerExists.rowCount === 0) {
             return res.sendStatus(400);
-        }
+        };
 
         const gameDetails = await db.query(`
             SELECT * FROM rentals WHERE "gameId"=$1 AND "returnDate" is null
         `, [gameId]);
 
-        const gameStock = gameExists.stockTotal;
-        const gameRentals = gameDetails;
+        const gameStock = gameExists.rows[0].stockTotal;
+        const gameRentals = gameDetails.rowCount;
 
         if (gameStock - gameRentals === 0) {
             return res.sendStatus(400);
-        }
+        };
 
         next();
     } catch (error) {
@@ -45,19 +45,19 @@ export async function validateCheckOutRental(req, res, next) {
     const { id } = req.params;
 
     try {
-        const { rows: rental } = await db.query(`
+        const rental = await db.query(`
             SELECT * FROM rentals WHERE id=$1
         `, [id]);
 
-        if (!rental) {
+        if (rental.rowCount === 0) {
             return res.sendStatus(404);
         }
 
-        if (rental.returnDate !== null) {
+        if (rental.rows[0].returnDate !== null) {
             return res.sendStatus(400);
         }
 
-        req.locals = rental;
+        req.locals = rental.rows[0];
 
         next();
     } catch (error) {
