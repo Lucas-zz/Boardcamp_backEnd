@@ -19,7 +19,7 @@ export async function getGames(req, res) {
                     games.*,
                     categories.name AS "categoryName"
                 FROM games
-                    JOIN categories ON games."categoryId"=category.id
+                    JOIN categories ON games."categoryId"=categories.id
                 ${offset && `OFFSET ${parseInt(offset)}`}
                 ${limit && `LIMIT ${parseInt(limit)}`}
             `);
@@ -40,6 +40,7 @@ export async function getGames(req, res) {
 
         res.send(games);
     } catch (error) {
+        console.log(error);
         res.status(500).send(error);
     }
 }

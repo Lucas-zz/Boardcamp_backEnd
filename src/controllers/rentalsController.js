@@ -2,10 +2,23 @@ import db from '../db.js';
 import dayjs from 'dayjs';
 
 export async function getRentals(req, res) {
-    const { offset, limit } = req.query;
+    let offset = '';
+    let limit = '';
+    const queryCustomerId = '';
+    const queryGameId = '';
 
-    const queryCustomerId = req.query.customerId;
-    const queryGameId = req.query.gameId;
+    if (req.query.offset) {
+        offset = req.query.offset;
+    }
+    if (req.query.limit) {
+        limit = req.query.limit;
+    }
+    if (req.query.customerId) {
+        queryCustomerId = req.query.customerId;
+    }
+    if (req.query.gameId) {
+        queryGameId = req.query.gameId;
+    }
 
     try {
         const { rows: rentals } = await db.query(`
@@ -75,10 +88,11 @@ export async function createRental(req, res) {
             INSERT INTO
                 rentals ("customerId", "gameId", "rentDate", "daysRented", "returnDate", "originalPrice", "delayFee")
                 VALUES ($1, $2, $3, $4, $5, $6, $7)
-        `, [customerId, gameId, rentDate, daysRented, null, pricePerDay.pricePerDay * daysRented, null]);
+        `, [customerId, gameId, rentDate, daysRented, null, pricePerDay[0].pricePerDay * daysRented, null]);
 
         res.sendStatus(201);
     } catch (error) {
+        console.log(error);
         res.status(500).send(error);
     }
 }
@@ -120,7 +134,7 @@ export async function deleteRental(req, res) {
         `, [id]);
 
         if (result.rowCount === 0) {
-            return res.status(409).send("Id não encontrado.");
+            return res.status(409).send("Id não encontrado");
         }
 
         await db.query(`

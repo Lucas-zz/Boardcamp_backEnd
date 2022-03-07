@@ -9,7 +9,7 @@ export async function validateRental(req, res, next) {
 
     try {
         const gameExists = await db.query(`
-            SELECT * FROM games WHERE id=$1
+            SELECT id FROM games WHERE id=$1
         `, [gameId]);
 
         if (gameExists.rowCount === 0) {
@@ -17,10 +17,11 @@ export async function validateRental(req, res, next) {
         };
 
         const customerExists = await db.query(`
-            SELECT * FROM customers WHERE id=$1
+            SELECT id FROM customers WHERE id=$1
         `, [customerId]);
 
         if (customerExists.rowCount === 0) {
+            console.log(customerExists.rows[0]);
             return res.sendStatus(400);
         };
 
