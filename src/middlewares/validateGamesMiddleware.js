@@ -1,19 +1,27 @@
 import db from '../db.js';
 
 export async function validateGame(req, res, next) {
-    const { name, stockTotal, pricePerDay } = req.body;
+    const { name, stockTotal, pricePerDay, categoryId } = req.body;
 
     if (parseInt(stockTotal) <= 0 || parseInt(pricePerDay) <= 0) {
         return res.sendStatus(400);
     }
 
     try {
-        const { rows: nameAlreadyExists } = await db.query(`
-            SELECT * FROM games WHERE name=$1
+        const nameAlreadyExists = await db.query(`
+            SELECT id FROM games WHERE name=$1
         `, [name]);
 
-        if (nameAlreadyExists) {
+        const hasCategory = await db.query(`
+            SELECT id FROM games WHERE id=$1
+        `, [categoryId]);
+
+        if (nameAlreadyExists.rowCount > 0) {
             return res.sendStatus(409);
+        }
+
+        if (hasCategory === 0) {
+            return res.sendStatus(400);
         }
 
         next();

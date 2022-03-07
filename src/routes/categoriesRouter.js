@@ -4,9 +4,9 @@ import { validateCategory } from '../middlewares/validateCategoriesMiddleware.js
 import validateSchemaMiddleware from '../middlewares/validateSchemaMiddleware.js';
 import categorySchema from '../schemas/categorySchema.js';
 
-const categoryRouter = Router();
+const categoriesRouter = Router();
 
-categoryRouter.get('/categories', getCategories);
-categoryRouter.post('/categories', validateSchemaMiddleware(categorySchema), validateCategory, createCategory);
+categoriesRouter.get('/categories', getCategories);
+categoriesRouter.post('/categories', validateSchemaMiddleware(categorySchema), validateCategory, createCategory);
 
-export default categoryRouter;
+export default categoriesRouter;

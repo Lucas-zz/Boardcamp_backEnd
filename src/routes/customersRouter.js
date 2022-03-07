@@ -4,11 +4,11 @@ import { validateCustomer, validateUpdateCustomer } from '../middlewares/validat
 import validateSchemaMiddleware from '../middlewares/validateSchemaMiddleware.js';
 import customerSchema from '../schemas/customersSchema.js';
 
-const customerRouter = Router();
+const customersRouter = Router();
 
-customerRouter.get('/customers', getCustomers);
-customerRouter.get('/customers/:id', getCustomers);
-customerRouter.post('/customers', validateSchemaMiddleware(customerSchema), validateCustomer, createCustomer);
-customerRouter.put('/customers/:id', validateSchemaMiddleware(customerSchema), validateUpdateCustomer, updateCustomer);
+customersRouter.get('/customers', getCustomers);
+customersRouter.get('/customers/:id', getCustomers);
+customersRouter.post('/customers', validateSchemaMiddleware(customerSchema), validateCustomer, createCustomer);
+customersRouter.put('/customers/:id', validateSchemaMiddleware(customerSchema), validateUpdateCustomer, updateCustomer);
 
-export default customerRouter;
+export default customersRouter;

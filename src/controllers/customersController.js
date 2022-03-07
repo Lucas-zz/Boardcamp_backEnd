@@ -1,8 +1,21 @@
 import db from '../db.js';
 
 export async function getCustomers(req, res) {
-    const { cpf, offset, limit } = req.query;
     const { id } = req.params;
+
+    let offset = '';
+    let limit = '';
+    let cpf = '';
+
+    if (req.query.offset) {
+        offset = req.query.offset;
+    }
+    if (req.query.limit) {
+        limit = req.query.limit;
+    }
+    if (req.query.cpf) {
+        cpf = req.query.cpf;
+    }
 
     try {
         if (!cpf && !id) {

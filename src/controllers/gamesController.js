@@ -1,7 +1,16 @@
 import db from '../db.js';
 
 export async function getGames(req, res) {
-    const { name, offset, limit } = req.query;
+    const { name } = req.query;
+    let offset = '';
+    let limit = '';
+
+    if (req.query.offset) {
+        offset = req.query.offset;
+    }
+    if (req.query.limit) {
+        limit = req.query.limit;
+    }
 
     try {
         if (!name) {
@@ -43,9 +52,9 @@ export async function createGame(req, res) {
             INSERT INTO
                 games (name, image, "stockTotal", "categoryId", "pricePerDay")
                 VALUES ($1, $2, $3, $4, $5)
-        `, [name, image, parseInt(stockTotal), categoryId, parseInt(pricePerDay)]);
+        `, [name, image, parseInt(stockTotal), parseInt(categoryId), parseInt(pricePerDay)]);
 
-        req.sendStatus(201);
+        res.sendStatus(201);
     } catch (error) {
         res.status(500).send(error);
     }

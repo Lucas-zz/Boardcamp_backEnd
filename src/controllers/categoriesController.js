@@ -1,17 +1,25 @@
 import db from '../db.js';
 
 export async function getCategories(req, res) {
-    const { offset, limit } = req.query;
+    let offset = '';
+    let limit = '';
+
+    if (req.query.offset) {
+        offset = req.query.offset;
+    }
+    if (req.query.limit) {
+        limit = req.query.limit;
+    }
 
     try {
-        const result = await db.query(`
+        const { rows: categories } = await db.query(`
             SELECT *
             FROM categories
             ${offset && `OFFSET ${parseInt(offset)}`}
             ${limit && `LIMIT ${parseInt(limit)}`}
         `);
 
-        res.send(result.rows);
+        res.send(categories);
     } catch (error) {
         res.status(500).send(error);
     }
