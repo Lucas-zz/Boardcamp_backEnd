@@ -24,8 +24,8 @@ export async function validateUpdateCustomer(req, res, next) {
 
     try {
         const { rows: checkCpf } = await db.query(`
-            SELECT * FROM customers WHERE cpf=$1
-        `, [cpf]);
+            SELECT * FROM customers WHERE cpf=$1 AND id!=$2
+        `, [cpf, id]);
 
         if (checkCpf && checkCpf.id != id) {
             return res.sendStatus(409);
