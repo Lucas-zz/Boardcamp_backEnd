@@ -18,6 +18,15 @@ export async function getCustomers(req, res) {
     }
 
     try {
+
+        const idExists = await db.query(`
+            SELECT id FROM customers WHERE id=$1
+        `, [id]);
+
+        if (idExists.rowCount === 0) {
+            return res.sendStatus(404);
+        }
+
         if (!cpf && !id) {
             const { rows: customers } = await db.query(`
                 SELECT *
@@ -83,13 +92,14 @@ export async function updateCustomer(req, res) {
 
     try {
         await db.query(`
-            UPDATE customer
+            UPDATE customers
                 SET name=$1, phone=$2, cpf=$3, birthday=$4
             WHERE id=$5
         `, [name, phone, cpf, formatBirthday, id]);
 
         res.sendStatus(200);
     } catch (error) {
+        console.log(error)
         res.status(500).send(error);
     }
 }
