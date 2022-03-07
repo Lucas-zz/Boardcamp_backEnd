@@ -76,7 +76,7 @@ export async function createCustomer(req, res) {
 }
 
 export async function updateCustomer(req, res) {
-    const { name, phone, cpf, birthday } = req.query;
+    const { name, phone, cpf, birthday } = req.body;
     const { id } = req.params;
 
     try {
