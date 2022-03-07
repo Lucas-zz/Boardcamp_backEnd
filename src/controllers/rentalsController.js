@@ -28,7 +28,7 @@ export async function getRentals(req, res) {
             customers.id AS "customerId",
             games.id AS "gameId",
             games.name AS "gameName",
-            games."categoryId"
+            games."categoryId",
             categories.name AS "categoryName"
         FROM rentals
             JOIN customers ON rentals."customerId" = customers.id
@@ -70,6 +70,7 @@ export async function getRentals(req, res) {
 
         res.send(rentalResult);
     } catch (error) {
+        console.log(error);
         res.status(500).send(error);
     }
 }
@@ -92,7 +93,6 @@ export async function createRental(req, res) {
 
         res.sendStatus(201);
     } catch (error) {
-        console.log(error);
         res.status(500).send(error);
     }
 }
