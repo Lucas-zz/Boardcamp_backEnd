@@ -61,7 +61,7 @@ export async function getRentals(req, res) {
     }
 }
 
-export async function postRentals(req, res) {
+export async function createRental(req, res) {
     const { customerId, gameId, daysRented } = req.body;
 
     const rentDate = dayjs().format('YYYY-MM-DD');

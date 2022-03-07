@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { getRentals, createRental, returnRental, deleteRental } from '../controllers/rentalsController';
-import { validateRental, validateCheckOutRental } from '../middlewares/validateRentalsMiddleware';
-import validateSchemaMiddleware from '../middlewares/validateSchemaMiddleware';
-import rentalSchema from '../schemas/gameSchema';
+import { getRentals, createRental, returnRental, deleteRental } from '../controllers/rentalsController.js';
+import { validateRental, validateCheckOutRental } from '../middlewares/validateRentalsMiddleware.js';
+import validateSchemaMiddleware from '../middlewares/validateSchemaMiddleware.js';
+import rentalSchema from '../schemas/gameSchema.js';
 
 const rentalsRouter = Router();
 

@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { getCustomers, createCustomer, updateCustomer } from '../controllers/customersController';
-import { validateCustomer, validateUpdateCustomer } from '../middlewares/validateCustomersMiddleware';
-import validateSchemaMiddleware from '../middlewares/validateSchemaMiddleware';
-import customerSchema from '../schemas/customersSchema';
+import { getCustomers, createCustomer, updateCustomer } from '../controllers/customersController.js';
+import { validateCustomer, validateUpdateCustomer } from '../middlewares/validateCustomersMiddleware.js';
+import validateSchemaMiddleware from '../middlewares/validateSchemaMiddleware.js';
+import customerSchema from '../schemas/customersSchema.js';
 
 const customerRouter = Router();
 

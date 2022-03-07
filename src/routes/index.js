@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import categoryRouter from './categoriesRouter';
-import customerRouter from './customersRouter';
-import gamesRouter from './gamesRouter';
-import rentalsRouter from './rentalsRouter';
+import categoryRouter from './categoriesRouter.js';
+import customerRouter from './customersRouter.js';
+import gamesRouter from './gamesRouter.js';
+import rentalsRouter from './rentalsRouter.js';
 
 const router = Router();
 
