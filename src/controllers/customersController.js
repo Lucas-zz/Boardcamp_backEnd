@@ -79,12 +79,14 @@ export async function updateCustomer(req, res) {
     const { name, phone, cpf, birthday } = req.body;
     const { id } = req.params;
 
+    const formatBirthday = birthday.split("T")[0];
+
     try {
         await db.query(`
             UPDATE customer
                 SET name=$1, phone=$2, cpf=$3, birthday=$4
             WHERE id=$5
-        `, [name, phone, cpf, birthday, id]);
+        `, [name, phone, cpf, formatBirthday, id]);
 
         res.sendStatus(200);
     } catch (error) {
