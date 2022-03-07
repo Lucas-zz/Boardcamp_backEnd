@@ -9,14 +9,6 @@ export async function validateCustomer(req, res, next) {
             SELECT id FROM customers WHERE cpf=$1
         `, [cpf]);
 
-        const idExists = await db.query(`
-            SELECT id FROM customers WHERE id=$1
-        `, [id]);
-
-        if (idExists.rowCount === 0) {
-            return res.sendStatus(404);
-        }
-
         if (cpfExists.rowCount > 0) {
             return res.sendStatus(409);
         }
