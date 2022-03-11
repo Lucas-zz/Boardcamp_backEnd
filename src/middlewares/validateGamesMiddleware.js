@@ -13,7 +13,7 @@ export async function validateGame(req, res, next) {
         `, [name]);
 
         const hasCategory = await db.query(`
-            SELECT id FROM games WHERE id=$1
+            SELECT id FROM categories WHERE id=$1
         `, [categoryId]);
 
         if (nameAlreadyExists.rowCount > 0) {
